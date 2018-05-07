@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:panel header="Thêm mới sách">
+                <p:messages autoUpdate="true"/>
+                <h:panelGrid id="grid">
+                    
+                    <h:outputLabel for="id" value="Mã sách: " style="font-weight: bold" />
+                    <h:outputText id="id" value="#{bookManagerBean.maxId}"/>
+                    
+                    <h:outputLabel for="tensach" value="Tên sách: " style="font-weight: bold" />
+                    <h:inputText id="tensach" value="#{bookManagerBean.tenSach}" required="true" label="Name"/>
+                    <p:message for="tensach"/>
+
+                    <p:outputLabel for="maLS" value="Thể loại: " />
+                    <p:selectOneMenu id="maLS" value="#{bookManagerBean.maLS}" required="true" style="width:150px">
+                        <f:selectItem itemLabel="Chọn loại sách" itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{bookKindManagerBean.dsLoaiSach}" var="bk" itemLabel="#{bk.tenloai}" itemValue="#{bk.maLoai}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="tacGia" value="Tác giả: " />
+                    <p:selectOneMenu id="tacGia" value="#{bookManagerBean.maTG}" required="true" style="width:150px">
+                        <f:selectItem itemLabel="Chọn tác giả: " itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{authorManagerBean.dsTacGia}" var="tg" itemLabel="#{tg.tentacgia}" itemValue="#{tg.maTG}"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="nhaXB" value="Nhà XB: " />
+                    <p:selectOneMenu id="nhaXB" value="#{bookManagerBean.maNXB}" required="true" style="width:150px">
+                        <f:selectItem itemLabel="Chọn nhà XB: " itemValue="" noSelectionOption="true" />
+                        <f:selectItems value="#{publishManagerBean.dsNhaXB}" var="nxb" itemLabel="#{nxb.tenNXB}" itemValue="#{nxb.maNXB}"/>
+                    </p:selectOneMenu>
+                     
+                    <p:outputLabel for="tomtat" value="Tóm tắt: "/>
+                    <p:inputTextarea id="tomtat" value="#{bookManagerBean.tomtat}" required="true" rows="6" cols="33" />
+                    
+                    <p:commandButton value="Submit" icon="ui-icon-check" action="#{bookManagerBean.themSach()}" />
+                </h:panelGrid>
+            </p:panel>
+
+        </h:form>
+    </h:body>
+</html>
