@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+
+    <h:body>
+        <h:form id="search">
+            <p:panel id="panel" header="Search Form" style="margin-bottom:10px;">
+                <p:messages id="messages" />
+
+                <h:panelGrid columns="4" cellpadding="5">
+                    <h:outputLabel for="txt1" value="Tìm kiếm" />
+                    <p:inputText id="txt1" value="#{bookManagerBean.keyword}" label="Search"/>
+                </h:panelGrid>
+            </p:panel>
+        </h:form>
+        <h:form id="form">
+            <p:dataGrid var="b" value="#{bookManagerBean.listBooks}" columns="3" layout="grid"
+                        rows="12" paginator="true" id="books"
+                        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="6,12,16">
+
+                <f:facet name="header">
+                    Danh sách
+                </f:facet>
+                <p:panel header="#{b.tensach}" style="text-align:center">
+                    <h:panelGrid columns="1" style="width:100%">
+                        <p:graphicImage library="images" name="#{b.tenanh}"/>
+                        <p:commandLink update=":form:bookDetail" oncomplete="PF('bookDialog').show()" title="View Detail">
+                            <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
+                            <f:setPropertyActionListener value="#{b}" target="#{bookManagerBean.book}" />
+                        </p:commandLink>
+                    </h:panelGrid>
+                </p:panel>
+
+            </p:dataGrid>
+
+            <p:dialog header="Thông tin chi tiết" widgetVar="bookDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="bookDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty bookManagerBean.book}" columnClasses="label,value">
+                        <f:facet name="header">
+                            <p:graphicImage library="images" name="#{bookManagerBean.book.tenanh}"/>
+                        </f:facet>
+
+                        <h:outputText value="Mã sách:" />
+                        <h:outputText value="#{bookManagerBean.book.maSach}" />
+
+                        <h:outputText value="Tên sách:" />
+                        <h:outputText value="#{bookManagerBean.book.tensach}" />
+
+                        <h:outputText value="Tác giả:" />
+                        <h:outputText value="#{bookManagerBean.book.maTG.tentacgia}" />
+
+                        <h:outputText value="Thể loại:" />
+                        <h:outputText value="#{bookManagerBean.book.maLoai.tenloai}"/>
+
+                        <h:outputText value="Nhà XB:" />
+                        <h:outputText value="#{bookManagerBean.book.maNXB.tenNXB}"/>
+
+                        <h:outputText value="Tóm tắt:" />
+                        <h:outputText value="#{bookManagerBean.book.tomtat}"/>
+
+                        <h:outputText value="Tải xuống:" />
+                        <p:commandButton value="Tải xuống" ajax="false" icon="ui-icon-arrowthick-1-s">
+                            <p:fileDownload value="#{bookManagerBean.file}"/>
+                        </p:commandButton>
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+            <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+                <p:graphicImage library="system" name="loadingbar.gif" />
+            </p:dialog>
+        </h:form>
+    </h:body>
+</html>

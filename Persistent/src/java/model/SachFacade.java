@@ -6,6 +6,7 @@
 package model;
 
 import entity.Sach;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,7 +29,11 @@ public class SachFacade extends AbstractFacade<Sach> {
     public SachFacade() {
         super(Sach.class);
     }
-
+    
+    public List<Sach> getBooks(String keyword){
+        return em.createNamedQuery("Sach.findByTensach").setParameter("tensach", "%"+keyword+"%").getResultList();
+    }
+    
     public String getMaxId() {
         String maxTemp = (String) em.createNamedQuery("Sach.getMaxId").setMaxResults(1).getSingleResult();
         return "MS"+(Integer.parseInt(maxTemp.substring(2))+1);

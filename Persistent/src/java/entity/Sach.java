@@ -30,9 +30,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Sach.findAll", query = "SELECT s FROM Sach s")
     , @NamedQuery(name = "Sach.findByMaSach", query = "SELECT s FROM Sach s WHERE s.maSach = :maSach")
-    ,@NamedQuery(name = "Sach.getMaxId", query = "SELECT s.maSach FROM Sach s ORDER BY s.maSach DESC")
-    , @NamedQuery(name = "Sach.findByTensach", query = "SELECT s FROM Sach s WHERE s.tensach = :tensach")
-    , @NamedQuery(name = "Sach.findByTomtat", query = "SELECT s FROM Sach s WHERE s.tomtat = :tomtat")})
+    , @NamedQuery(name = "Sach.findByTensach", query = "SELECT s FROM Sach s WHERE s.tensach LIKE :tensach")
+    , @NamedQuery(name = "Sach.findByTomtat", query = "SELECT s FROM Sach s WHERE s.tomtat = :tomtat")
+    , @NamedQuery(name = "Sach.findByTenanh", query = "SELECT s FROM Sach s WHERE s.tenanh = :tenanh")
+    , @NamedQuery(name = "Sach.findByTenfile", query = "SELECT s FROM Sach s WHERE s.tenfile = :tenfile")})
 public class Sach implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,6 +49,12 @@ public class Sach implements Serializable {
     @Size(max = 250)
     @Column(name = "Tomtat")
     private String tomtat;
+    @Size(max = 250)
+    @Column(name = "Tenanh")
+    private String tenanh;
+    @Size(max = 250)
+    @Column(name = "Tenfile")
+    private String tenfile;
     @JoinColumn(name = "MaLoai", referencedColumnName = "MaLoai")
     @ManyToOne(fetch = FetchType.EAGER)
     private LoaiSach maLoai;
@@ -87,6 +94,22 @@ public class Sach implements Serializable {
 
     public void setTomtat(String tomtat) {
         this.tomtat = tomtat;
+    }
+
+    public String getTenanh() {
+        return tenanh;
+    }
+
+    public void setTenanh(String tenanh) {
+        this.tenanh = tenanh;
+    }
+
+    public String getTenfile() {
+        return tenfile;
+    }
+
+    public void setTenfile(String tenfile) {
+        this.tenfile = tenfile;
     }
 
     public LoaiSach getMaLoai() {
@@ -137,5 +160,5 @@ public class Sach implements Serializable {
     public String toString() {
         return "entity.Sach[ maSach=" + maSach + " ]";
     }
-
+    
 }
